@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+
+  <!-- PWA Required Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3367D6">
+  <!-- iOS Icon -->
+  <link rel="apple-touch-icon" href="/icon-192.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>汉字笔顺动画 - 东西南北</title>
@@ -236,6 +243,12 @@
 
         // 页面加载时初始化
         window.onload = initAll;
+
+        if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js');
+  });
+}
     </script>
 </body>
 </html>
