@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汉字笔顺动画 - 东西南北</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .character-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            max-width: 900px;
+        }
+        
+        .character-box {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .pinyin {
+            font-size: 24px;
+            color: #3c3fe7;
+            margin-bottom: 15px;
+            height: 20px;
+        }
+        
+        .character {
+            font-size: 30px;
+            position: relative;
+            margin-bottom: 10px;
+            visibility: hidden; /* 初始隐藏汉字 */
+        }
+        
+        .gif-container {
+            width: 100px;
+            height:100px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .gif-animation {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+        
+        .static-character {
+            font-size: 45px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden; /* 初始隐藏静态字 */
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #db8534;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #9cb929;
+        }
+        
+        .stroke-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            height: 20px;
+        }
+        
+        .pronounce-btn {
+            background-color: #ccaa2e;
+            margin-top: 5px;
+        }
+        
+        .pronounce-btn:hover {
+            background-color: #7aae27;
+        }
+    </style>
+</head>
+<body>
+    <h1>汉字笔顺动画 - 东西南北<br>点击"开始"查看笔顺</h1>
+    
+    <div class="character-container">
+        <!-- 东 -->
+        <div class="character-box" id="dong-box">
+            <div class="pinyin">dōng</div>
+            <div class="character">东</div>
+            <div class="gif-container">
+                <div class="static-character">东</div>
+                <img class="gif-animation" id="dong-gif" src="https://www.hanzipi.com/pic/gif/%E4%B8%9C.gif" alt="东字笔画动画">
+            </div>
+            <div class="stroke-info">笔画数: 5画</div>
+            <div class="controls">
+                <button onclick="playGifAnimation('dong')">开始</button>
+                <button onclick="resetGifAnimation('dong')">重置</button>
+                
+            </div>
+        </div>
+        
+        <!-- 西 -->
+        <div class="character-box" id="xi-box">
+            <div class="pinyin">xī</div>
+            <div class="character">西</div>
+            <div class="gif-container">
+                <div class="static-character">西</div>
+                <img class="gif-animation" id="xi-gif" src="https://www.hanzipi.com/pic/gif/%E8%A5%BF.gif" alt="西字笔画动画">
+            </div>
+            <div class="stroke-info">笔画数: 6画</div>
+            <div class="controls">
+                <button onclick="playGifAnimation('xi')">开始</button>
+                <button onclick="resetGifAnimation('xi')">重置</button>
+                
+            </div>
+        </div>
+        
+        <!-- 南 -->
+        <div class="character-box" id="nan-box">
+            <div class="pinyin">nán</div>
+            <div class="character">南</div>
+            <div class="gif-container">
+                <div class="static-character">南</div>
+                <img class="gif-animation" id="nan-gif" src="https://www.hanzipi.com/pic/gif/%E5%8D%97.gif" alt="南字笔画动画">
+            </div>
+            <div class="stroke-info">笔画数: 9画</div>
+            <div class="controls">
+                <button onclick="playGifAnimation('nan')">开始</button>
+                <button onclick="resetGifAnimation('nan')">重置</button>
+                
+            </div>
+        </div>
+        
+        <!-- 北 -->
+        <div class="character-box" id="bei-box">
+            <div class="pinyin">běi</div>
+            <div class="character">北</div>
+            <div class="gif-container">
+                <div class="static-character">北</div>
+                <img class="gif-animation" id="bei-gif" src="https://www.hanzipi.com/pic/gif/%E5%8C%97.gif" alt="北字笔画动画">
+            </div>
+            <div class="stroke-info">笔画数: 5画</div>
+            <div class="controls">
+                <button onclick="playGifAnimation('bei')">开始</button>
+                <button onclick="resetGifAnimation('bei')">重置</button>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 开始GIF动画
+        function playGifAnimation(character) {
+            const gif = document.getElementById(`${character}-gif`);
+            const staticChar = document.querySelector(`#${character}-box .static-character`);
+            const hanzi = document.querySelector(`#${character}-box .character`);
+            
+            // 显示GIF和汉字，隐藏静态字
+            gif.style.display = 'block';
+            hanzi.style.visibility = 'visible';
+            staticChar.style.visibility = 'hidden';
+            
+            // 通过重新加载GIF来重新开始动画
+            gif.src = gif.src;
+        }
+
+        // 重置GIF动画
+        function resetGifAnimation(character) {
+            const gif = document.getElementById(`${character}-gif`);
+            const staticChar = document.querySelector(`#${character}-box .static-character`);
+            const hanzi = document.querySelector(`#${character}-box .character`);
+            
+            // 隐藏GIF和汉字，显示静态字
+            gif.style.display = 'none';
+            hanzi.style.visibility = 'hidden';
+            staticChar.style.visibility = 'visible';
+        }
+
+        // // 发音功能
+        // function pronounce(pinyin) {
+        //     const utterance = new SpeechSynthesisUtterance();
+        //     utterance.text = pinyin;
+        //     utterance.lang = 'zh-CN';
+        //     utterance.rate = 0.8;
+        //     speechSynthesis.speak(utterance);
+        // }
+
+        // 初始化所有字符
+        function initAll() {
+            resetGifAnimation('dong');
+            resetGifAnimation('xi');
+            resetGifAnimation('nan');
+            resetGifAnimation('bei');
+        }
+
+        // 页面加载时初始化
+        window.onload = initAll;
+    </script>
+</body>
+</html>
